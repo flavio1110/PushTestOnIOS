@@ -13,8 +13,32 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+     (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+
     return YES;
 }
+
+// Delegation methods
+- (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)devToken {
+    
+    NSString *token = [[devToken description] stringByTrimmingCharactersInSet: [NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    //NSString *token = [devToken description];
+    token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    
+    // saving an NSString
+    [prefs setObject:token forKey:@"pushToken"];
+    
+    NSLog(@"content---%@", devToken);   //this is the string
+}
+
+- (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err {
+    NSLog(@"Error in registration. Error: %@", err);
+}
+
 							
 - (void)applicationWillResignActive:(UIApplication *)application
 {

@@ -10,4 +10,10 @@
 
 @interface ViewController : UIViewController
 
+@property (nonatomic, strong) IBOutlet UILabel *labelPushToken;
+@property (nonatomic, strong) IBOutlet UITextField *txtIp;
+@property (nonatomic, strong) IBOutlet UILabel *labelReceivedToken;
+
+- (IBAction)fetchProviderToken;
+
 @end
